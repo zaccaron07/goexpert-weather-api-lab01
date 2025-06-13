@@ -11,19 +11,26 @@ import (
 	"github.com/zaccaron07/goexpert-weather-api-lab01/internal/usecase"
 )
 
+type WeatherResponse struct {
+	TemperatureCelsius    float64 `json:"temp_C"`
+	TemperatureFahrenheit float64 `json:"temp_F"`
+	TemperatureKelvin     float64 `json:"temp_K"`
+}
+
 type WebWeatherHandler struct {
 	ZipcodeRepository entity.ZipcodeRepositoryInterface
+	WeatherRepository entity.WeatherRepositoryInterface
 }
 
 func NewWebWeatherHandler() *WebWeatherHandler {
 	return &WebWeatherHandler{
 		ZipcodeRepository: repo.NewZipcodeRepository(),
+		WeatherRepository: repo.NewWeatherRepository(),
 	}
 }
 
 func (h *WebWeatherHandler) Fetch(w http.ResponseWriter, r *http.Request) {
 	zipcode := chi.URLParam(r, "zipcode")
-	fmt.Println("Fetching weather for Zipcode:", zipcode)
 
 	getZipcodeInput := usecase.ZipcodeInput{
 		CEP: zipcode,
@@ -46,6 +53,23 @@ func (h *WebWeatherHandler) Fetch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	getWeatherInput := usecase.WeatherInput{
+		CityName: getZipcodeOutput.Localidade,
+	}
+	getWeatherUseCase := usecase.NewGetWeatherUseCase(h.WeatherRepository)
+	getWeatherOutput, err := getWeatherUseCase.Execute(getWeatherInput)
+
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error fetching weather: %v", err), http.StatusInternalServerError)
+		return
+	}
+
+	weatherResponse := WeatherResponse{
+		TemperatureCelsius:    getWeatherOutput.TemperatureCelsius,
+		TemperatureFahrenheit: getWeatherOutput.TemperatureFahrenheit,
+		TemperatureKelvin:     getWeatherOutput.TemperatureKelvin,
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(getZipcodeOutput)
+	json.NewEncoder(w).Encode(weatherResponse)
 }

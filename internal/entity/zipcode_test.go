@@ -1,14 +1,16 @@
-package entity
+package entity_test
 
 import (
 	"testing"
+
+	"github.com/zaccaron07/goexpert-weather-api-lab01/internal/entity"
 )
 
 func TestZipcodeEntity(t *testing.T) {
 	t.Run("should create a valid Zipcode entity", func(t *testing.T) {
 		zipcode := "88820000"
 
-		z, err := NewZipcode(zipcode)
+		z, err := entity.NewZipcode(zipcode)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -28,7 +30,7 @@ func TestZipcodeEntity(t *testing.T) {
 		}
 
 		for _, zipcode := range invalidZipcodes {
-			_, err := NewZipcode(zipcode)
+			_, err := entity.NewZipcode(zipcode)
 			if err == nil {
 				t.Errorf("expected error for invalid Zipcode %q, got nil", zipcode)
 			}

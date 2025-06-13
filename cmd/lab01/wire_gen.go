@@ -23,3 +23,5 @@ func NewWeatherHandler() *web.WebWeatherHandler {
 // wire.go:
 
 var setZipcodeRepository = wire.NewSet(repo.NewZipcodeRepository, wire.Bind(new(entity.ZipcodeRepositoryInterface), new(repo.ZipcodeRepository)))
+
+var setWeatherRepository = wire.NewSet(repo.NewWeatherRepository, wire.Bind(new(entity.WeatherRepositoryInterface), new(repo.WeatherRepository)))
