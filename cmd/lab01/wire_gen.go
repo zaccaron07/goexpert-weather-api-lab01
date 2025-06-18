@@ -15,13 +15,11 @@ import (
 
 // Injectors from wire.go:
 
-func NewWeatherHandler() *web.WebWeatherHandler {
-	webWeatherHandler := web.NewWebWeatherHandler()
+func NewWeatherHandler(apiKey string) *web.WebWeatherHandler {
+	webWeatherHandler := web.NewWebWeatherHandler(apiKey)
 	return webWeatherHandler
 }
 
 // wire.go:
 
 var setZipcodeRepository = wire.NewSet(repo.NewZipcodeRepository, wire.Bind(new(entity.ZipcodeRepositoryInterface), new(repo.ZipcodeRepository)))
-
-var setWeatherRepository = wire.NewSet(repo.NewWeatherRepository, wire.Bind(new(entity.WeatherRepositoryInterface), new(repo.WeatherRepository)))

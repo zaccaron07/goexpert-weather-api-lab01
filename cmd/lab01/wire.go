@@ -15,12 +15,7 @@ var setZipcodeRepository = wire.NewSet(
 	wire.Bind(new(entity.ZipcodeRepositoryInterface), new(repo.ZipcodeRepository)),
 )
 
-var setWeatherRepository = wire.NewSet(
-	repo.NewWeatherRepository,
-	wire.Bind(new(entity.WeatherRepositoryInterface), new(repo.WeatherRepository)),
-)
-
-func NewWeatherHandler() *web.WebWeatherHandler {
+func NewWeatherHandler(apiKey string) *web.WebWeatherHandler {
 	wire.Build(web.NewWebWeatherHandler)
 	return &web.WebWeatherHandler{}
 }

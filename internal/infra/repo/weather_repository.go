@@ -19,10 +19,12 @@ type WeatherResponse struct {
 	} `json:"current"`
 }
 
-type WeatherRepository struct{}
+type WeatherRepository struct {
+	APIKey string
+}
 
-func NewWeatherRepository() *WeatherRepository {
-	return &WeatherRepository{}
+func NewWeatherRepository(apiKey string) *WeatherRepository {
+	return &WeatherRepository{APIKey: apiKey}
 }
 
 func (r *WeatherRepository) GetByCityName(cityName string) (entity.Weather, error) {
@@ -30,7 +32,8 @@ func (r *WeatherRepository) GetByCityName(cityName string) (entity.Weather, erro
 	defer cancel()
 
 	encodedCityName := url.QueryEscape(cityName)
-	req, err := http.NewRequestWithContext(ctx, "GET", fmt.Sprintf("http://api.weatherapi.com/v1/current.json?key=%s&q=%s", "e0ccdadebbde491cb4032811251206", encodedCityName), nil)
+	url := fmt.Sprintf("http://api.weatherapi.com/v1/current.json?key=%s&q=%s", r.APIKey, encodedCityName)
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		log.Printf("Failed to initialize request: %v", err)
 		return entity.Weather{}, err

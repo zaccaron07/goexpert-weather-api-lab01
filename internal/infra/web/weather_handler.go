@@ -22,10 +22,10 @@ type WebWeatherHandler struct {
 	WeatherRepository entity.WeatherRepositoryInterface
 }
 
-func NewWebWeatherHandler() *WebWeatherHandler {
+func NewWebWeatherHandler(apiKey string) *WebWeatherHandler {
 	return &WebWeatherHandler{
 		ZipcodeRepository: repo.NewZipcodeRepository(),
-		WeatherRepository: repo.NewWeatherRepository(),
+		WeatherRepository: repo.NewWeatherRepository(apiKey),
 	}
 }
 

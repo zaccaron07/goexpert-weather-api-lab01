@@ -1,13 +1,29 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	webserver "github.com/zaccaron07/goexpert-weather-api-lab01/internal/infra/web/webserver"
 )
 
 func main() {
-	webserver := webserver.NewWebServer("127.0.0.1:8080")
-	webWeatherHandler := NewWeatherHandler()
-	webserver.AddHandler("/zipcode/{zipcode}/weather", webWeatherHandler.Fetch)
+	apiKey := getAPIKey()
+	startServer(apiKey)
+}
 
-	webserver.Start()
+func getAPIKey() string {
+	apiKey := os.Getenv("WEATHER_API_KEY")
+	if apiKey == "" {
+		log.Fatal("WEATHER_API_KEY environment variable is required")
+	}
+	return apiKey
+}
+
+func startServer(apiKey string) {
+	server := webserver.NewWebServer(":8080")
+	handler := NewWeatherHandler(apiKey)
+	server.AddHandler("/zipcode/{zipcode}/weather", handler.Fetch)
+
+	server.Start()
 }
