@@ -26,6 +26,10 @@ Uma API REST em Go que recebe um CEP brasileiro, identifica a cidade e retorna o
      ```powershell
      $env:WEATHER_API_KEY="sua_chave_aqui"; go run ./cmd/lab01
      ```
+   - No Linux/macOS (bash/zsh):
+     ```sh
+     WEATHER_API_KEY=sua_chave_aqui go run ./cmd/lab01
+     ```
    - Ou crie um arquivo `.env` (apenas para desenvolvimento local):
      ```env
      WEATHER_API_KEY=sua_chave_aqui
