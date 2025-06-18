@@ -81,4 +81,4 @@ Uma API REST em Go que recebe um CEP brasileiro, identifica a cidade e retorna o
 - `internal/usecase/` — Casos de uso da aplicação
 
 ## Link da entrega
-https://goexpert-weather-api-lab-01-516049214932.us-central1.run.app
+https://goexpert-weather-api-lab-01-516049214932.us-central1.run.app/zipcode/88820000/weather
