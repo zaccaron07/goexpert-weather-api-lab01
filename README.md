@@ -75,3 +75,6 @@ Uma API REST em Go que recebe um CEP brasileiro, identifica a cidade e retorna o
 - `internal/infra/repo/` — Repositórios de APIs externas
 - `internal/infra/web/` — Handlers HTTP e servidor web
 - `internal/usecase/` — Casos de uso da aplicação
+
+## Link da entrega
+https://goexpert-weather-api-lab-01-516049214932.us-central1.run.app
