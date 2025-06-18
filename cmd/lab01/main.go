@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/zaccaron07/goexpert-weather-api-lab01/internal/infra/web"
 	webserver "github.com/zaccaron07/goexpert-weather-api-lab01/internal/infra/web/webserver"
 )
 
@@ -22,7 +23,7 @@ func getAPIKey() string {
 
 func startServer(apiKey string) {
 	server := webserver.NewWebServer(":8080")
-	handler := NewWeatherHandler(apiKey)
+	handler := web.NewWebWeatherHandler(apiKey)
 	server.AddHandler("/zipcode/{zipcode}/weather", handler.Fetch)
 
 	server.Start()
